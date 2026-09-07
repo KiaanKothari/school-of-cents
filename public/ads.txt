@@ -1,0 +1,10 @@
+# Google AdSense authorized-sellers file.
+#
+# This is a PLACEHOLDER. Before you connect this site in AdSense, replace
+# pub-0000000000000000 below with your real publisher ID (find it in your
+# AdSense account under Account > Account information > Publisher ID — it
+# looks like "pub-1234567890123456"). See SETUP.md for the full walkthrough.
+#
+# Until you edit this, it doesn't do anything or hurt anything — it just
+# won't match your real account.
+google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

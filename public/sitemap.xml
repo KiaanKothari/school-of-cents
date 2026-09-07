@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Lists only the public, crawlable marketing/content pages — not
+  auth-gated routes like /dashboard, /profile, /progress, /challenges, or
+  /lesson/:id, which redirect anonymous visitors (including crawlers) to
+  /login and have nothing to index.
+
+  NOTE: assumes the production domain is schoolofcents.com — update every
+  <loc> below if a different domain is ultimately purchased.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://schoolofcents.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://schoolofcents.com/learn</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://schoolofcents.com/learn/money-basics</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://schoolofcents.com/learn/budgeting</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://schoolofcents.com/learn/credit-debt</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://schoolofcents.com/learn/investing</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://schoolofcents.com/learn/taxes</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://schoolofcents.com/learn/real-estate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://schoolofcents.com/learn/retirement</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://schoolofcents.com/real-life</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://schoolofcents.com/calculators</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://schoolofcents.com/leaderboard</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://schoolofcents.com/signup</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://schoolofcents.com/login</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>

@@ -1,0 +1,9 @@
+# All public marketing/content pages are open to crawling. Logged-in-only
+# pages (dashboard, profile, progress, challenges, lesson runner) aren't
+# blocked here since they already redirect anonymous requests — including
+# crawlers — to /login, so there's nothing sensitive for a disallow rule to
+# protect; blocking them would just be redundant.
+User-agent: *
+Allow: /
+
+Sitemap: https://schoolofcents.com/sitemap.xml
