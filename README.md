@@ -2,6 +2,8 @@
 
 **Learn money. Make better decisions.**
 
+New here? Sign up free at schoolofcents.com — 38 lessons, 10 real-life money scenarios, and a daily challenge, gamified with XP, streaks, and badges. Takes about 30 seconds, no credit card, and your progress is saved so you can pick up where you left off.
+
 School of Cents is an interactive financial literacy platform — short lessons, real-life financial scenarios, daily
 challenges, XP, streaks, and badges, built to feel like "Duolingo for financial literacy" rather than a textbook or a
 bank.
