@@ -94,9 +94,9 @@ financial, investment, tax, or legal advice.
 
 ## Author
 
-Built by [your name here] as a financial-literacy project for students.
+Built by Kiaan Kothari as a financial-literacy project for students.
 
 ## License
 
 No LICENSE file is included, so default copyright applies: all rights reserved, no one else may copy, modify, or
-redistribute this code without permission. Add an OSI license file explicitly if you ever want to open-source it.
+redistribute this code without permission. 
