@@ -2,6 +2,7 @@
 
 **Learn money. Make better decisions.**
 
+<p align="center"> <a href="https://schoolofcents.com"> <img alt="Try School of Cents free" src="https://img.shields.io/badge/%F0%9F%94%97_Try_it_free-schoolofcents.com-1F3B57?style=for-the-badge"> </a> </p>
 New here? Sign up free at schoolofcents.com — 38 lessons, 10 real-life money scenarios, and a daily challenge, gamified with XP, streaks, and badges. Takes about 30 seconds, no credit card, and your progress is saved so you can pick up where you left off.
 
 School of Cents is an interactive financial literacy platform — short lessons, real-life financial scenarios, daily
