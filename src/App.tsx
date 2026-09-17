@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import { AuthProvider } from '@/context/AuthContext'
 import { ProgressProvider } from '@/context/ProgressContext'
 import { ToastProvider } from '@/context/ToastContext'
@@ -30,6 +31,7 @@ import NotFound from '@/pages/NotFound'
 export default function App() {
   return (
     <ErrorBoundary>
+      <Analytics />
       <BrowserRouter>
         <AuthProvider>
           <ToastProvider>
