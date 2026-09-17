@@ -4,6 +4,7 @@ import { LinkButton } from '@/components/ui/Button'
 import { TopicCard } from '@/components/TopicCard'
 import { QuizQuestionCard } from '@/components/QuizQuestionCard'
 import { NewsletterForm } from '@/components/NewsletterForm'
+import { MoneyMinuteCard } from '@/components/MoneyMinuteCard'
 import { AdSlot } from '@/components/ads/AdSlot'
 import { CATEGORIES } from '@/data/categories'
 import { useAuth } from '@/context/AuthContext'
@@ -132,11 +133,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter */}
+      {/* Money Minute */}
       <section className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8">
         <h2 className="font-display text-2xl font-bold text-ink">The Money Minute</h2>
-        <p className="mt-2 text-ink-faint">One useful money lesson in your inbox.</p>
-        <div className="mt-6 flex justify-center">
+        <p className="mt-2 text-ink-faint">One useful money fact, every single day.</p>
+        <div className="mt-8">
+          <MoneyMinuteCard />
+        </div>
+        <p className="mt-10 text-sm text-ink-faint">Want it delivered too?</p>
+        <div className="mt-3 flex justify-center">
           <NewsletterForm />
         </div>
         <p className="mx-auto mt-6 max-w-xl text-xs text-ink-faint">
