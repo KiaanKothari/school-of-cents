@@ -9,6 +9,7 @@ const LOGGED_OUT_LINKS = [
   { to: '/learn', label: 'Learn' },
   { to: '/real-life', label: 'Real Life' },
   { to: '/calculators', label: 'Calculators' },
+  { to: '/money-minute', label: 'Money Minute' },
 ]
 
 const LOGGED_IN_LINKS = [
@@ -17,7 +18,7 @@ const LOGGED_IN_LINKS = [
   { to: '/challenges', label: 'Challenges' },
   { to: '/calculators', label: 'Calculators' },
   { to: '/progress', label: 'Progress' },
-  { to: '/leaderboard', label: 'Leaderboard' },
+  { to: '/money-minute', label: 'Money Minute' },
 ]
 
 export function Navbar() {

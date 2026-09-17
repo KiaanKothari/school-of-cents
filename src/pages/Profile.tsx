@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/Button'
 import { BadgeTile } from '@/components/BadgeTile'
 import { useAuth } from '@/context/AuthContext'
 import { useProgress } from '@/context/ProgressContext'
-import { setShowOnLeaderboard } from '@/services/db'
 import { BADGES } from '@/data/badges'
 import { CATEGORIES } from '@/data/categories'
 import { levelForXp } from '@/data/levels'
@@ -13,14 +12,13 @@ import { useDocumentTitle } from '@/utils/useDocumentTitle'
 
 export default function Profile() {
   useDocumentTitle('My Profile')
-  const { profile, updateDisplayName, setProfile } = useAuth()
+  const { profile, updateDisplayName } = useAuth()
   const { categoryProgressPercent, completedLessonsCount, completedScenariosCount, badgesEarned, ready } = useProgress()
 
   const [name, setName] = useState(profile?.displayName ?? '')
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [toggling, setToggling] = useState(false)
 
   if (!profile || !ready) {
     return (
@@ -50,19 +48,6 @@ export default function Profile() {
       return
     }
     setEditing(false)
-  }
-
-  async function handleToggleLeaderboard() {
-    if (!profile) return
-    setToggling(true)
-    try {
-      const updated = await setShowOnLeaderboard(profile.id, !profile.showOnLeaderboard)
-      setProfile(updated)
-    } catch (err) {
-      console.error(err)
-    } finally {
-      setToggling(false)
-    }
   }
 
   return (
@@ -133,25 +118,6 @@ export default function Profile() {
           <h2 className="font-display text-lg font-bold text-ink">Challenges Completed</h2>
           <Card className="mt-3">
             <p className="text-sm text-ink-soft">{completedScenariosCount} real-life scenarios decided so far.</p>
-          </Card>
-        </section>
-
-        <section className="mt-8">
-          <h2 className="font-display text-lg font-bold text-ink">Leaderboard visibility</h2>
-          <Card className="mt-3 flex items-center justify-between gap-4">
-            <div>
-              <p className="text-sm font-medium text-ink">Show my profile on the public leaderboard</p>
-              <p className="text-sm text-ink-faint">Your email is never shown — only your display name and XP.</p>
-            </div>
-            <button
-              onClick={handleToggleLeaderboard}
-              disabled={toggling}
-              role="switch"
-              aria-checked={profile.showOnLeaderboard}
-              className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${profile.showOnLeaderboard ? 'bg-brand-500' : 'bg-ink/15'}`}
-            >
-              <span className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-transform ${profile.showOnLeaderboard ? 'translate-x-6' : 'translate-x-1'}`} />
-            </button>
           </Card>
         </section>
 

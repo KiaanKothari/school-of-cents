@@ -22,7 +22,7 @@ import Challenges from '@/pages/Challenges'
 import Calculators from '@/pages/Calculators'
 import ProgressPage from '@/pages/Progress'
 import Profile from '@/pages/Profile'
-import Leaderboard from '@/pages/Leaderboard'
+import MoneyMinute from '@/pages/MoneyMinute'
 import Privacy from '@/pages/Privacy'
 import Terms from '@/pages/Terms'
 import Contact from '@/pages/Contact'
@@ -49,7 +49,7 @@ export default function App() {
                 <Route path="/real-life" element={<RealLife />} />
                 <Route path="/real-life/:scenarioId" element={<ScenarioDetail />} />
                 <Route path="/calculators" element={<Calculators />} />
-                <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/money-minute" element={<MoneyMinute />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/contact" element={<Contact />} />
