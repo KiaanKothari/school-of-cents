@@ -27,6 +27,9 @@ import Privacy from '@/pages/Privacy'
 import Terms from '@/pages/Terms'
 import Contact from '@/pages/Contact'
 import About from '@/pages/About'
+import StudentVoices from '@/pages/StudentVoices'
+import StudentPostPage from '@/pages/StudentPostPage'
+import SubmitPost from '@/pages/SubmitPost'
 import NotFound from '@/pages/NotFound'
 
 export default function App() {
@@ -55,6 +58,16 @@ export default function App() {
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/blog" element={<StudentVoices />} />
+                <Route path="/blog/:postId" element={<StudentPostPage />} />
+                <Route
+                  path="/blog/submit"
+                  element={
+                    <ProtectedRoute>
+                      <SubmitPost />
+                    </ProtectedRoute>
+                  }
+                />
 
                 <Route
                   path="/dashboard"

@@ -7,8 +7,10 @@ import type {
   DailyChallengeProgressRow,
   LeaderboardEntry,
   LessonProgressRow,
+  NewStudentPost,
   Profile,
   ScenarioProgressRow,
+  StudentPost,
 } from '@/types'
 
 function requireClient() {
@@ -263,4 +265,74 @@ export async function fetchLeaderboard(limit = 20): Promise<LeaderboardEntry[]> 
     xp: row.xp,
     isDemo: false,
   }))
+}
+
+// ---- Student Voices ----------------------------------------------------------
+// Row Level Security (see supabase/schema.sql) does the real gatekeeping here:
+// anyone can read approved posts, authors can read their own, and every
+// insert is forced to start as 'pending' — so nothing a student submits is
+// public until it has been approved in the Supabase dashboard.
+
+const STUDENT_POST_COLUMNS = 'id, author_name, school, grade, category, title, body, status, created_at, published_at'
+
+function mapStudentPost(row: Record<string, unknown>): StudentPost {
+  return {
+    id: row.id as string,
+    authorName: row.author_name as string,
+    school: (row.school as string | null) ?? null,
+    grade: (row.grade as StudentPost['grade']) ?? null,
+    category: row.category as StudentPost['category'],
+    title: row.title as string,
+    body: row.body as string,
+    status: row.status as StudentPost['status'],
+    createdAt: row.created_at as string,
+    publishedAt: (row.published_at as string | null) ?? null,
+  }
+}
+
+export async function fetchPublishedPosts(): Promise<StudentPost[]> {
+  const client = requireClient()
+  const { data, error } = await client
+    .from('student_posts')
+    .select(STUDENT_POST_COLUMNS)
+    .eq('status', 'approved')
+    .order('published_at', { ascending: false })
+  if (error) throw error
+  return (data ?? []).map(mapStudentPost)
+}
+
+export async function fetchPublishedPost(id: string): Promise<StudentPost | null> {
+  const client = requireClient()
+  const { data, error } = await client
+    .from('student_posts')
+    .select(STUDENT_POST_COLUMNS)
+    .eq('id', id)
+    .eq('status', 'approved')
+    .maybeSingle()
+  if (error) throw error
+  return data ? mapStudentPost(data) : null
+}
+
+export async function fetchMySubmissions(userId: string): Promise<StudentPost[]> {
+  const client = requireClient()
+  const { data, error } = await client
+    .from('student_posts')
+    .select(STUDENT_POST_COLUMNS)
+    .eq('author_id', userId)
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  return (data ?? []).map(mapStudentPost)
+}
+
+export async function submitStudentPost(post: NewStudentPost): Promise<void> {
+  const client = requireClient()
+  const { error } = await client.from('student_posts').insert({
+    author_name: post.authorName,
+    school: post.school,
+    grade: post.grade,
+    category: post.category,
+    title: post.title,
+    body: post.body,
+  })
+  if (error) throw error
 }

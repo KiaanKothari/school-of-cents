@@ -57,6 +57,7 @@ export type AnalyticsEvent =
   | 'achievement_unlocked'
   | 'newsletter_signup'
   | 'premium_clicked'
+  | 'student_post_submitted'
 
 /**
  * Sends a GA4 event. A no-op (not even a console warning) when analytics

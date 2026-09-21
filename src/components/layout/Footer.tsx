@@ -19,6 +19,7 @@ export function Footer() {
               <li><Link to="/real-life" className="hover:text-brand-700">Real Life Scenarios</Link></li>
               <li><Link to="/calculators" className="hover:text-brand-700">Calculators</Link></li>
               <li><Link to="/money-minute" className="hover:text-brand-700">Money Minute</Link></li>
+              <li><Link to="/blog" className="hover:text-brand-700">Student Voices Blog</Link></li>
             </ul>
           </div>
           <div>

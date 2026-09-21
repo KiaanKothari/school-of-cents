@@ -171,3 +171,31 @@ export interface LeaderboardEntry {
   xp: number
   isDemo: boolean
 }
+
+// ---- Student Voices (student-submitted essays/articles) ----
+
+export type StudentPostCategory = 'essay' | 'article' | 'opinion' | 'story'
+export type StudentPostStatus = 'pending' | 'approved' | 'rejected'
+export type StudentGrade = '9' | '10' | '11' | '12' | 'other'
+
+export interface StudentPost {
+  id: string
+  authorName: string
+  school: string | null
+  grade: StudentGrade | null
+  category: StudentPostCategory
+  title: string
+  body: string
+  status: StudentPostStatus
+  createdAt: string
+  publishedAt: string | null
+}
+
+export interface NewStudentPost {
+  authorName: string
+  school: string | null
+  grade: StudentGrade | null
+  category: StudentPostCategory
+  title: string
+  body: string
+}

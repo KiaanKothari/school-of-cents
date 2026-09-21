@@ -10,6 +10,7 @@ const LOGGED_OUT_LINKS = [
   { to: '/real-life', label: 'Real Life' },
   { to: '/calculators', label: 'Calculators' },
   { to: '/money-minute', label: 'Money Minute' },
+  { to: '/blog', label: 'Blog' },
 ]
 
 const LOGGED_IN_LINKS = [
@@ -19,6 +20,7 @@ const LOGGED_IN_LINKS = [
   { to: '/calculators', label: 'Calculators' },
   { to: '/progress', label: 'Progress' },
   { to: '/money-minute', label: 'Money Minute' },
+  { to: '/blog', label: 'Blog' },
 ]
 
 export function Navbar() {
@@ -36,12 +38,12 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-ink/[0.06] bg-paper/85 backdrop-blur-md">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link to={user ? '/dashboard' : '/'} className="flex items-center gap-2 font-display text-lg font-extrabold text-ink">
+        <Link to={user ? '/dashboard' : '/'} className="flex shrink-0 items-center gap-2 whitespace-nowrap font-display text-lg font-extrabold text-ink">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white">¢</span>
           School of Cents
         </Link>
 
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-0.5 lg:flex">
           {links.map((link) => (
             <NavLink
               key={link.to}
@@ -49,7 +51,7 @@ export function Navbar() {
               end={link.to === '/'}
               className={({ isActive }) =>
                 cn(
-                  'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                  'whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-medium transition-colors xl:px-3',
                   isActive ? 'bg-brand-50 text-brand-700' : 'text-ink-soft hover:bg-paper-dim hover:text-ink',
                 )
               }
@@ -59,11 +61,11 @@ export function Navbar() {
           ))}
         </div>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden shrink-0 items-center gap-2 lg:flex">
           {user ? (
             <>
               {profile && (
-                <div className="flex items-center gap-2 rounded-full bg-paper-dim px-3 py-1.5 text-sm font-semibold text-ink-soft">
+                <div className="hidden items-center gap-2 whitespace-nowrap rounded-full bg-paper-dim px-3 py-1.5 text-sm font-semibold text-ink-soft xl:flex">
                   <span>🔥 {profile.currentStreak}</span>
                   <span className="text-ink/15">|</span>
                   <span>⚡ {profile.xp.toLocaleString()}</span>
@@ -72,7 +74,7 @@ export function Navbar() {
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>
-                  cn('rounded-lg px-3 py-2 text-sm font-medium', isActive ? 'bg-brand-50 text-brand-700' : 'text-ink-soft hover:bg-paper-dim')
+                  cn('whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium', isActive ? 'bg-brand-50 text-brand-700' : 'text-ink-soft hover:bg-paper-dim')
                 }
               >
                 Profile
@@ -94,7 +96,7 @@ export function Navbar() {
         </div>
 
         <button
-          className="flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-paper-dim md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-paper-dim lg:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
           aria-expanded={open}
@@ -112,7 +114,7 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-ink/[0.06] bg-paper px-4 py-3 md:hidden">
+        <div className="border-t border-ink/[0.06] bg-paper px-4 py-3 lg:hidden">
           <div className="flex flex-col gap-1">
             {links.map((link) => (
               <NavLink

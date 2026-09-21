@@ -261,3 +261,82 @@ create index if not exists idx_profiles_leaderboard on public.profiles (xp desc)
 -- Done. Next: copy your project URL and anon key into .env (see .env.example
 -- and SETUP.md), then `npm run dev`.
 -- =============================================================================
+
+-- -----------------------------------------------------------------------------
+-- student_posts — "Student Voices" blog: essays/articles submitted by students.
+--
+-- Nothing a student submits is public until the site owner approves it:
+--   * inserts are forced to status = 'pending' by the policy below
+--   * there are no update/delete policies, so only the dashboard (service
+--     role, which bypasses RLS) can approve or reject
+--   * the public can only ever read rows where status = 'approved'
+-- To publish a piece: Table Editor → student_posts → set status to 'approved'
+-- (published_at is stamped automatically).
+-- -----------------------------------------------------------------------------
+create table if not exists public.student_posts (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  author_name text not null check (char_length(btrim(author_name)) between 2 and 60),
+  school text check (school is null or char_length(school) <= 100),
+  grade text check (grade is null or grade in ('9', '10', '11', '12', 'other')),
+  category text not null default 'essay' check (category in ('essay', 'article', 'opinion', 'story')),
+  title text not null check (char_length(btrim(title)) between 5 and 120),
+  body text not null check (char_length(body) between 300 and 20000),
+  status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
+  created_at timestamptz not null default now(),
+  published_at timestamptz
+);
+
+alter table public.student_posts enable row level security;
+
+drop policy if exists "student_posts_select" on public.student_posts;
+create policy "student_posts_select"
+  on public.student_posts for select
+  using (status = 'approved' or (select auth.uid()) = author_id);
+
+drop policy if exists "student_posts_insert" on public.student_posts;
+create policy "student_posts_insert"
+  on public.student_posts for insert
+  to authenticated
+  with check ((select auth.uid()) = author_id and status = 'pending' and published_at is null);
+
+-- Anti-spam: at most 3 submissions waiting for review per person.
+create or replace function public.student_posts_limit_pending()
+returns trigger
+language plpgsql
+set search_path = public
+as $$
+begin
+  if (select count(*) from public.student_posts
+        where author_id = new.author_id and status = 'pending') >= 3 then
+    raise exception 'You already have 3 submissions waiting for review. Please wait for those before sending more.';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists student_posts_limit_pending on public.student_posts;
+create trigger student_posts_limit_pending
+  before insert on public.student_posts
+  for each row execute function public.student_posts_limit_pending();
+
+create or replace function public.student_posts_set_published_at()
+returns trigger
+language plpgsql
+set search_path = public
+as $$
+begin
+  if new.status = 'approved' and old.status is distinct from 'approved' and new.published_at is null then
+    new.published_at := now();
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists student_posts_set_published_at on public.student_posts;
+create trigger student_posts_set_published_at
+  before update on public.student_posts
+  for each row execute function public.student_posts_set_published_at();
+
+create index if not exists idx_student_posts_published on public.student_posts (published_at desc) where status = 'approved';
+create index if not exists idx_student_posts_author on public.student_posts (author_id);
