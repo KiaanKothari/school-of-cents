@@ -18,7 +18,7 @@ export function Footer() {
               <li><Link to="/learn" className="hover:text-brand-700">Learn</Link></li>
               <li><Link to="/real-life" className="hover:text-brand-700">Real Life Scenarios</Link></li>
               <li><Link to="/calculators" className="hover:text-brand-700">Calculators</Link></li>
-              <li><Link to="/leaderboard" className="hover:text-brand-700">Leaderboard</Link></li>
+              <li><Link to="/money-minute" className="hover:text-brand-700">Money Minute</Link></li>
             </ul>
           </div>
           <div>
@@ -29,15 +29,17 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-ink">The Money Minute</h4>
-            <p className="mt-3 text-sm text-ink-faint">One useful financial concept. A few minutes. Every week.</p>
+            <h4 className="text-sm font-semibold text-ink">Company</h4>
+            <ul className="mt-3 space-y-2 text-sm text-ink-faint">
+              <li><Link to="/about" className="hover:text-brand-700">About the Founder</Link></li>
+              <li><Link to="/contact" className="hover:text-brand-700">Contact</Link></li>
+            </ul>
           </div>
           <div>
             <h4 className="text-sm font-semibold text-ink">Legal</h4>
             <ul className="mt-3 space-y-2 text-sm text-ink-faint">
               <li><Link to="/privacy" className="hover:text-brand-700">Privacy Policy</Link></li>
               <li><Link to="/terms" className="hover:text-brand-700">Terms of Use</Link></li>
-              <li><Link to="/contact" className="hover:text-brand-700">Contact</Link></li>
             </ul>
           </div>
         </div>
