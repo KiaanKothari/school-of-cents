@@ -284,7 +284,8 @@ create table if not exists public.student_posts (
   body text not null check (char_length(body) between 300 and 20000),
   status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
   created_at timestamptz not null default now(),
-  published_at timestamptz
+  published_at timestamptz,
+  notified_at timestamptz  -- set by the notify-new-submission edge function once the owner has been emailed
 );
 
 alter table public.student_posts enable row level security;
@@ -298,7 +299,12 @@ drop policy if exists "student_posts_insert" on public.student_posts;
 create policy "student_posts_insert"
   on public.student_posts for insert
   to authenticated
-  with check ((select auth.uid()) = author_id and status = 'pending' and published_at is null);
+  with check (
+    (select auth.uid()) = author_id
+    and status = 'pending'
+    and published_at is null
+    and notified_at is null
+  );
 
 -- Anti-spam: at most 3 submissions waiting for review per person.
 create or replace function public.student_posts_limit_pending()
@@ -340,3 +346,35 @@ create trigger student_posts_set_published_at
 
 create index if not exists idx_student_posts_published on public.student_posts (published_at desc) where status = 'approved';
 create index if not exists idx_student_posts_author on public.student_posts (author_id);
+
+-- Email alert: after each submission, ask the notify-new-submission edge
+-- function (supabase/functions/notify-new-submission) to email the owner.
+-- Needs the RESEND_API_KEY and ALERT_EMAIL secrets set on that function.
+-- pg_net sends the request after commit; a failure never blocks a submission.
+create extension if not exists pg_net with schema extensions;
+
+create or replace function public.student_posts_notify()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, extensions
+as $$
+begin
+  perform net.http_post(
+    url := 'https://pimolgbwpogwxvlnyjon.supabase.co/functions/v1/notify-new-submission',
+    body := jsonb_build_object('id', new.id),
+    headers := '{"Content-Type": "application/json"}'::jsonb
+  );
+  return new;
+exception when others then
+  raise warning 'student_posts_notify failed: %', sqlerrm;
+  return new;
+end;
+$$;
+
+revoke execute on function public.student_posts_notify() from public, anon, authenticated;
+
+drop trigger if exists student_posts_notify on public.student_posts;
+create trigger student_posts_notify
+  after insert on public.student_posts
+  for each row execute function public.student_posts_notify();
